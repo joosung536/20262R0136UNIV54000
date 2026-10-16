@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090e12">
+  <meta name="description" content="네온 도시에서 경찰을 따돌리는 오프라인 탑다운 드라이빙 게임.">
+  <title>MOST WANTED: NIGHT RUN</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body data-state="MENU">
+  <div class="game-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Most Wanted Night Run"><span class="brand-mark" aria-hidden="true">M<span>W</span></span><span>MOST WANTED<small>NIGHT RUN / ARCADE PURSUIT</small></span></a>
+      <div class="session-tag"><i></i> OFFLINE ARCADE <span>VOL. 01</span></div>
+      <div class="top-actions"><div class="record"><span>PERSONAL BEST</span><strong id="best-score">000000</strong></div><button id="pause-button" class="icon-button" type="button" aria-label="일시정지" disabled>Ⅱ <kbd>P</kbd></button></div>
+    </header>
+    <main class="arena" id="arena" aria-label="경찰 추격 게임">
+      <canvas id="game" tabindex="0" aria-label="게임 화면. W A S D 또는 방향키로 운전, Space 드리프트, Shift 니트로, P 일시정지.">Canvas를 지원하는 최신 브라우저에서 실행해 주세요.</canvas>
+      <div class="hud" aria-label="게임 정보">
+        <div class="speed-stat"><span class="stat-label">SPEED <span id="gear">N</span></span><div><strong id="speed">000</strong><span class="unit">KM/H</span></div><div class="speed-ticks"><i id="speed-fill"></i></div></div>
+        <div class="hud-right">
+          <div class="wanted-stat"><span class="stat-label">WANTED LEVEL</span><div id="wanted" class="stars" aria-label="수배 레벨 1"><span class="active">★</span><span>★</span><span>★</span><span>★</span><span>★</span></div></div>
+          <div class="meter-stat"><div class="stat-label">HEALTH <b id="health">100</b></div><div class="meter health-meter"><i id="health-fill"></i></div><div class="stat-label nitro-label">NITRO <b id="nitro">100%</b></div><div class="meter nitro-meter"><i id="nitro-fill"></i></div></div>
+          <div class="time-stat"><span class="stat-label">SURVIVAL TIME</span><strong id="time">00:00</strong></div>
+          <div class="score-stat"><span class="stat-label">SCORE</span><strong id="score">000000</strong></div>
+        </div>
+      </div>
+      <div id="notice" class="notice" role="status" aria-live="polite"></div>
+      <div class="world-caption"><span class="live-dot"></span><span id="pursuit-label">NIGHT CITY / SECTOR 07</span><small id="pursuit-detail">도시는 잠들지 않는다.</small></div>
+      <aside class="minimap-panel" aria-label="도시 미니맵"><div class="map-label"><span>CITY RADAR</span><span class="map-live">LIVE</span></div><canvas id="minimap" width="180" height="180" aria-label="청록색은 내 차, 빨간색은 경찰, 노란색은 보너스"></canvas><div class="map-legend"><span><i></i> YOU</span><span><i></i> POLICE</span><span><i></i> BONUS</span></div></aside>
+      <div class="screen" id="menu-screen">
+        <section class="menu-card" aria-labelledby="menu-title"><div class="eyebrow"><span></span> NO RULES. JUST SURVIVE.</div><h1 id="menu-title">MOST<br>WANTED<span>NIGHT RUN</span></h1><p class="menu-description">네온이 켜지면, 추격이 시작된다.<br>드리프트로 코너를 꺾고 니트로로 포위를 벗어나라.</p><button id="start-button" class="primary-button" type="button"><span>START RUN <small>추격 시작</small></span><span aria-hidden="true">↗</span></button><div class="menu-hint"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><span>운전</span><kbd>SPACE</kbd><span>드리프트</span></div><div class="menu-rule"><span>01 / 끝까지 살아남기</span><span>수배 상승마다 경찰 +1</span></div></section>
+        <div class="scene-caption"><span>YOUR RIDE</span><strong>PHANTOM / GT</strong><small>REAR-WHEEL DRIVE · NITRO EQUIPPED</small></div>
+      </div>
+      <div class="screen centered-screen" id="pause-screen" hidden><section class="dialog-card"><div class="eyebrow">TAKE A BREATH</div><h2>RUN PAUSED<span>추격 일시정지</span></h2><p>준비되면 다시 도로로.</p><button id="resume-button" class="primary-button" type="button"><span>RESUME RUN</span><span aria-hidden="true">→</span></button><small><kbd>P</kbd> 또는 <kbd>Esc</kbd>로 재개</small></section></div>
+      <div class="screen centered-screen" id="over-screen" hidden><section class="dialog-card"><div class="eyebrow red">END OF THE ROAD</div><h2>BUSTED<span>오늘 밤의 추격이 끝났다.</span></h2><div class="final-stats"><div><span>SURVIVED</span><strong id="final-time">00:00</strong></div><div><span>FINAL SCORE</span><strong id="final-score">000000</strong></div></div><div class="final-best"><span id="record-label">PERSONAL BEST</span><strong id="final-best">000000</strong></div><button id="restart-button" class="primary-button" type="button"><span>ONE MORE RUN <small>다시 도전</small></span><span aria-hidden="true">↗</span></button><small><kbd>R</kbd> 키로 빠르게 재시작</small></section></div>
+    </main>
+    <footer class="controls"><div class="controls-title"><span class="control-cross">✣</span> THE GETAWAY MANUAL</div><div class="control-items"><span><kbd>W</kbd><kbd>↑</kbd> 가속</span><span><kbd>S</kbd><kbd>↓</kbd> 브레이크 / 후진</span><span><kbd>A</kbd><kbd>D</kbd> 조향</span><span><kbd>SPACE</kbd> 드리프트</span><span><kbd>SHIFT</kbd> 니트로</span><span><kbd>P</kbd><kbd>ESC</kbd> 일시정지</span></div><div class="footer-note">STAY FAST. STAY FREE.</div></footer>
+  </div>
+</body>
+</html>
